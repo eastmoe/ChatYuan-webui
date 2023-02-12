@@ -52,12 +52,18 @@ def main():
 
   #for i, input_text in enumerate(input_list):
   i=1
+  output_text=""
+  #假定一开始的输出是空。
   while i>=1:
     #input_text = input("用户：")
     input_text = pywebio.input.input("您：")
     input_text = "用户：" + input_text + "\n\nChatYuan："
     print(f"问答{i}".center(50, "="))
-    output_text = answer(input_text)
+    all_input = input_text + output_text+"\n\n"
+    #总输入=用户本次输入+上一次的机器人输出
+    #output_text = answer(input_text)
+    output_text = answer(all_input)
+    #next_input="用户：" + input_text + "\n\nChatYuan："+ output_text
     print(f"{input_text}{output_text}"+"\n\n")
     pywebio.output.put_text(f"{input_text}{output_text}"+"\n\n")
     i=i+1
