@@ -26,7 +26,7 @@ def preprocess(text):
 def postprocess(text):
   return text.replace("\\n", "\n").replace("\\t", "\t")
 
-def answer(text, sample=True, top_p=1, temperature=0.7):
+def answer(text, sample=True, top_p=1, temperature=0.35):
   '''sample：是否抽样。生成任务，可以设置为True;
   top_p：0-1之间，生成的内容越多样'''
   text = preprocess(text)
@@ -49,6 +49,8 @@ def main():
   print("模型加载完成。")
   pywebio.output.put_markdown("**模型加载完成**")
   pywebio.output.put_markdown("***")
+  mult_chat = pywebio.input.checkbox("多轮对话", options=['勾选此项以启用多轮对话'])
+  #启用多轮对话的复选框
 
   #for i, input_text in enumerate(input_list):
   i=1
@@ -59,9 +61,14 @@ def main():
     input_text = pywebio.input.input("您：")
     input_text = "用户：" + input_text + "\n\nChatYuan："
     print(f"问答{i}".center(50, "="))
-    all_input = input_text + output_text+"\n\n"
-    #总输入=用户本次输入+上一次的机器人输出
-    #output_text = answer(input_text)
+    print(mult_chat)
+    if mult_chat ==[]: #根据复选框判断是否给下次输入添加上次的输出
+      all_input = input_text + "\n\n"
+      print("禁用多轮会话")
+    else:
+      all_input = input_text + output_text + "\n\n"
+      # 总输入=用户本次输入+上一次的机器人输出
+      print("启用多轮会话")
     output_text = answer(all_input)
     #next_input="用户：" + input_text + "\n\nChatYuan："+ output_text
     print(f"{input_text}{output_text}"+"\n\n")
