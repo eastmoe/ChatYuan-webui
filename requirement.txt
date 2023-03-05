@@ -1,3 +1,4 @@
 torch==1.13.1+cu116
 transformers==4.26.0
+SentencePiece==0.1.97
 pywebio==1.7.1
